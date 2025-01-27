@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package prog.cipfpbatoi;
-
+import java.util.Calendar;
 
 /**
  *
@@ -20,6 +20,10 @@ public class Data {
      *  Inicializa una fecha a la fecha del sistema
      */
     public Data() {
+        Calendar rightNow = Calendar.getInstance();
+        this.any = rightNow.get(Calendar.YEAR);
+        this.dia = rightNow.get(Calendar.DAY_OF_MONTH);
+        this.mes = rightNow.get(Calendar.MONTH) + 1;
     }
 
     /**
@@ -29,6 +33,9 @@ public class Data {
      * @param any
      */
     public Data(int dia, int mes, int any) {
+        this.dia = dia;
+        this.mes = mes;
+        this.any = any;
     }
 
     /**
@@ -38,6 +45,7 @@ public class Data {
      * @param fecha
      */
     public Data(String fecha) {
+        
     }
 
     /**
@@ -47,6 +55,9 @@ public class Data {
      * @param any
      */
     public void set(int dia, int mes, int any) {
+        this.dia = dia;
+        this.mes = mes;
+        this.any = any;
         
     }
 
@@ -57,7 +68,8 @@ public class Data {
      * @return
      */
     public Data copy() {
-        return null;
+        Data nuevaFecha = new Data(this.dia,this.mes,this.any);
+        return nuevaFecha;
     }
 
     /**
@@ -85,9 +97,10 @@ public class Data {
     }
 
     /**
-     * Muestra por pantalla la fecha en formato español dd-mm-yyyy
+     * Muestra por pantalla la fecha en formato español dd/mm/yyyy
      */
     public void mostrarEnFormatES()  {
+        System.out.printf("%02d/%02d/%d \n", this.dia, this.mes, this.any);
         
     }
 
@@ -95,6 +108,7 @@ public class Data {
      * Muestra por pantalla la fecha en formato inglés yyyy-mm-dd
      */
     public void mostrarEnFormatGB() {
+        System.out.printf("%d/%02d/%02d \n", this.any, this.mes, this.dia);
         
     }
 
@@ -102,6 +116,7 @@ public class Data {
      * Muestra por pantalla la fecha en formato texto dd-mmmmm-yyyy
      */
     public void mostrarEnFormatText() {
+        System.out.printf("%02d-%02d-%d \n", this.dia, this.mes, this.any);
         
     }
 
@@ -113,7 +128,11 @@ public class Data {
      * @return boolean
      */
     public boolean isIgual(Data fecha) {
-        return false;
+        if (this.dia == fecha.getDia() && this.mes == fecha.getMes() && this.any == fecha.getAny()){
+            return true;
+        }else{
+            return false;
+        }
     }
 
     /**
@@ -148,7 +167,6 @@ public class Data {
      * @return
      */
     public Data afegir(long numDias) {
-
         return null;
     }
 
@@ -197,7 +215,13 @@ public class Data {
      * @return boolean
      */
     public static boolean isBisiesto(int any){
-        return false;
+        Calendar fechaEspecifica = Calendar.getInstance();
+        fechaEspecifica.set(any, Calendar.DECEMBER, 31);
+        if (fechaEspecifica.get(Calendar.DAY_OF_YEAR) == 366){
+            return true;
+        }else{
+            return false;
+        }wor
     }
 
     /**
@@ -220,6 +244,8 @@ public class Data {
      * @return int total dias any en curso
      */
     public static int getDiesAny(int any){
-        return -1;
+        Calendar fechaEspecifica = Calendar.getInstance();
+        fechaEspecifica.set(any, Calendar.DECEMBER, 31);
+        return fechaEspecifica.get(Calendar.DAY_OF_YEAR);
     }
 }
