@@ -4,6 +4,7 @@
  */
 package prog.cipfpbatoi;
 import java.util.Calendar;
+import java.util.StringTokenizer;
 
 /**
  *
@@ -14,6 +15,34 @@ public class Data {
     private int dia;
     private int mes;
     private int any;
+    private static final String GENER = "gener";
+    private static final String FEBRER = "febrer";
+    private static final String MARÇ = "març";
+    private static final String ABRIL = "abril";
+    private static final String MAIG = "maig";
+    private static final String JUNY = "juny";
+    private static final String JULIOL = "juliol";
+    private static final String AGOST = "agost";
+    private static final String SETEMBRE = "setembre";
+    private static final String OCTUBRE = "octubre";
+    private static final String NOVEMBRE = "novembre";
+    private static final String DESEMBRE = "desembre";
+    private static final int ANONOBISIESTO = 365;
+    private static final int ANOBISIESTO = 366;
+    private static final String DILLUNS = "dilluns";
+    private static final String DIMARTS = "dimarts";
+    private static final String DIMECRES = "dimecres";
+    private static final String DIJOUS = "dijous";
+    private static final String DIVENDRES = "divendres";
+    private static final String DISSABTE = "dissabte";
+    private static final String DIUMENGE = "diumenge";
+    private static final int NDILLUNS = 1;
+    private static final int NDIMARTS = 2;
+    private static final int NDIMECRES = 3;
+    private static final int NDIJOUS = 4;
+    private static final int NDIVENDRES = 5;
+    private static final int NDISSABTE = 6;
+    private static final int NDIUMENGE = 7;
 
     /**
      *  Constructor por defecto
@@ -45,7 +74,10 @@ public class Data {
      * @param fecha
      */
     public Data(String fecha) {
-        
+       StringTokenizer st = new StringTokenizer(fecha, "/");
+        this.dia = Integer.parseInt(st.nextToken());
+        this.mes = Integer.parseInt(st.nextToken());
+        this.any = Integer.parseInt(st.nextToken());
     }
 
     /**
@@ -108,18 +140,47 @@ public class Data {
      * Muestra por pantalla la fecha en formato inglés yyyy-mm-dd
      */
     public void mostrarEnFormatGB() {
-        System.out.printf("%d/%02d/%02d \n", this.any, this.mes, this.dia);
+        System.out.printf("%d-%02d-%02d \n", this.any, this.mes, this.dia);
         
     }
+    
+    private String getMesText(int mes) {
+        switch (mes) {
+            case 1:
+                return GENER;
+            case 2:
+                return FEBRER;
+            case 3:
+                return MARÇ;
+            case 4:
+                return ABRIL;
+            case 5:
+                return MAIG;
+            case 6:
+                return JUNY;
+            case 7:
+                return JULIOL;
+            case 8:
+                return AGOST;
+            case 9:
+                return SETEMBRE;
+            case 10:
+                return OCTUBRE;
+            case 11:
+                return NOVEMBRE;
+            default:
+                return DESEMBRE;
+            }
+        }
 
     /**
      * Muestra por pantalla la fecha en formato texto dd-mmmmm-yyyy
      */
     public void mostrarEnFormatText() {
-        System.out.printf("%02d-%02d-%d \n", this.dia, this.mes, this.any);
-        
+        System.out.printf("%02d-%s-%d \n", this.dia, getMesText(this.mes), this.any); 
     }
 
+    
     /**
      * Retorna un booleano indicando si la fecha del objeto es igual a la fecha pasada como
      * argumento
@@ -140,14 +201,47 @@ public class Data {
      * @return String
      */
     public String getDiaSetmana() {
-        return null;
+        int diesTranscorreguts = getDiesTranscorregutsOrigen();
+        int diaSetmana = diesTranscorreguts % 7;
+        switch (diaSetmana) {
+            case 0: return DIUMENGE;
+            case 1: return DILLUNS;
+            case 2: return DIMARTS;
+            case 3: return DIMECRES;
+            case 4: return DIJOUS;
+            case 5: return DIVENDRES;
+            default: return DISSABTE;
+        }
     }
     
+    private int getDiesTranscorregutsOrigen() {
+        int dies = 0;
+        // Sumar días de años completos desde el año 1 hasta el año anterior
+        for (int i = 1; i < this.any; i++) {
+            if (isBisiesto(i)){
+                dies += 366;
+            }else{
+                dies += 365;
+            }
+        }
+        for (int i = 1; i < this.mes; i++) {
+            dies += getDiesMes(i, this.any);
+        }
+
+        // Sumar los días del mes actual
+        dies += dia;
+
+        return dies;
+       }
+
     /**
      * Solo Festivo sábado o domingo
      * @return boolean
      */
     public boolean isFestiu() {
+        if (getDiaSetmana() == DISSABTE || getDiaSetmana() == DIUMENGE){
+            return true;
+        }
         return false;
     }
 
@@ -156,27 +250,97 @@ public class Data {
      * @return 
      */
     public int getNumeroSetmana() {
-        return -1;
-
+        int dies = 0;
+        Data calcularPrimeraSemana = new Data(1,1,this.any);
+        switch(calcularPrimeraSemana.getDiaSetmana()){
+            case DIUMENGE: dies += NDIUMENGE;
+            break;
+            case DILLUNS: dies += NDILLUNS;
+            break;
+            case DIMARTS: dies += NDIMARTS;
+            break;
+            case DIMECRES: dies += NDIMECRES;
+            break;
+            case DIJOUS: dies += NDIJOUS;
+            break;
+            case DIVENDRES: dies += NDIVENDRES;
+            break;
+            default: dies += NDISSABTE;
+        }
+        System.out.println(dies);
+        for (int i = 1; i < this.mes; i++) {
+            dies += getDiesMes(i, this.any);
+        }
+        dies += this.dia;
+        int semanas = (dies / 7);
+        if (dies % 7 != 0){
+            semanas++;
+        }
+        return semanas;
     }
-
+    
+    
+    
     /**
      * Crea una nueva fecha con un número de días adicionales a la fecha actual
      *
      * @param numDias
      * @return
      */
-    public Data afegir(long numDias) {
-        return null;
-    }
+   public Data afegir(long numDias) {
+    int esteMes = this.mes;
+    int diaInicial = this.dia;
+    long esteDia = diaInicial + numDias;
+    int esteAno = this.any;
+    boolean finalizado = false;
+
+    while (!finalizado) {
+        int diasEnMes = getDiesMes(esteMes, esteAno);
+        
+        if (esteDia > diasEnMes) {
+            esteDia -= diasEnMes;
+            esteMes++; 
+            if (esteMes > 12) { 
+                    esteMes = 1;
+                    esteAno++;
+                }
+        } else {
+            finalizado = true;
+            }
+        }
+    Data nuevaFecha = new Data((int) esteDia,esteMes,esteAno);
+    return nuevaFecha;
+   }
+
+    // Devolvemos una nueva instancia de la clase Data con los valores calculados
+   
 
     /**
      * Crea una nueva fecha con un número de días anteriores a la fecha actual
      * @param numDias
      * @return 
      */
-    public Data restar(long numDias){
-        return null;
+    public Data restar(long numDias) {
+        int esteMes = this.mes;
+        int diaInicial = this.dia;
+        long esteDia = diaInicial - numDias;
+        int esteAno = this.any;
+        boolean finalizado = false;
+
+        while (!finalizado) {
+            if (esteDia < 1) {
+                esteMes--; 
+                if (esteMes < 1) { 
+                    esteMes = 12;
+                    esteAno--;
+                }
+                esteDia += getDiesMes(esteMes, esteAno);
+            } else {
+                finalizado = true;
+            }
+        }
+        Data nuevaFecha = new Data((int) esteDia, esteMes, esteAno);
+        return nuevaFecha;
     }
     
     /**
@@ -185,7 +349,13 @@ public class Data {
      */
 
     public boolean isCorrecta(){
-        return false;
+        if (this.mes > 13 || this.mes < 1){
+            return false;
+        }
+        if (getDiesMes(this.mes, this.any) < this.dia || this.dia < 1){
+            return false;
+        }
+        return true;
     }
 
     
@@ -195,7 +365,7 @@ public class Data {
      * @return 
      */
     public long getDiesDeDiferencia(Data data) {
-        return -1L;
+        return Math.abs(getDiesTranscorregutsOrigen() - data.getDiesTranscorregutsOrigen());
     }
     
     /**
@@ -204,7 +374,7 @@ public class Data {
      * @return 
      */
     public boolean esPosteriorA(Data data) {
-        return false;
+        return getDiesTranscorregutsOrigen() > data.getDiesTranscorregutsOrigen();
     }
 
     /**
@@ -215,13 +385,13 @@ public class Data {
      * @return boolean
      */
     public static boolean isBisiesto(int any){
-        Calendar fechaEspecifica = Calendar.getInstance();
-        fechaEspecifica.set(any, Calendar.DECEMBER, 31);
-        if (fechaEspecifica.get(Calendar.DAY_OF_YEAR) == 366){
+        if (any % 4 == 0) {
+            if (any % 100 == 0) {
+                return any % 400 == 0;
+            }
             return true;
-        }else{
-            return false;
         }
+        return false; 
     }
 
     /**
@@ -233,9 +403,19 @@ public class Data {
      *
      */
     public static int getDiesMes(int mes, int any) {
-
-        return -1;
-    }
+        switch (mes) {
+            case 1: case 3: case 5: case 7: case 8: case 10: case 12:
+                return 31;
+            case 4: case 6: case 9: case 11:
+                return 30;
+            default:
+                if (isBisiesto(any)) {
+                    return 29;
+                } else {
+                    return 28;
+                }
+            }
+        }
 
     /**
      * Calcula el número total de dias que tiene el año pasado como argumento
@@ -244,8 +424,10 @@ public class Data {
      * @return int total dias any en curso
      */
     public static int getDiesAny(int any){
-        Calendar fechaEspecifica = Calendar.getInstance();
-        fechaEspecifica.set(any, Calendar.DECEMBER, 31);
-        return fechaEspecifica.get(Calendar.DAY_OF_YEAR);
+        if (isBisiesto(any)){
+            return ANOBISIESTO;
+        }else{
+            return ANONOBISIESTO;
+        }
     }
 }
