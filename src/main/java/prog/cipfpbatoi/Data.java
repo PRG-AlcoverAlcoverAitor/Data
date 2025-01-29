@@ -312,7 +312,6 @@ public class Data {
     return nuevaFecha;
    }
 
-    // Devolvemos una nueva instancia de la clase Data con los valores calculados
    
 
     /**
