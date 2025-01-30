@@ -3,10 +3,10 @@ package prog.cipfpbatoi;
 public class Esdeveniment {
 
     // Atributos
-    private String tipo; // Tipus d'esdeveniment: Aniversari, Festiu, Especial, Altres
-    private String notaDescriptiva; // Nota descriptiva de l'esdeveniment
-    private String ubicacion; // Ubicació de l'esdeveniment (opcional)
-    private Data fechaEsdeviment; // Data de l'esdeveniment (composició amb la classe Data)
+    private String tipo;
+    private String notaDescriptiva;
+    private String ubicacion;
+    private Data fechaEsdeviment;
 
     // Constructor principal
     public Esdeveniment(String tipo, String notaDescriptiva, String ubicacion, int diasRestantes) {
@@ -19,7 +19,11 @@ public class Esdeveniment {
 
     // Constructor alternativo "sin" ubicacion
     public Esdeveniment(String tipo, String notaDescriptiva) {
-        
+        this.tipo = tipo;
+        this.notaDescriptiva = notaDescriptiva;
+        this.ubicacion = null;
+        this.fechaEsdeviment = new Data();
+        this.fechaEsdeviment.afegir(30);
     }
 
     // Constructor alternativo sin ubicacion ni fecha
