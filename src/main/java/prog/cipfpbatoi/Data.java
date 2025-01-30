@@ -228,8 +228,7 @@ public class Data {
             dies += getDiesMes(i, this.any);
         }
 
-        // Sumar los días del mes actual
-        dies += dia;
+        dies += this.dia;
 
         return dies;
        }
