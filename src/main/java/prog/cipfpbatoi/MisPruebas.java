@@ -2,10 +2,9 @@ package prog.cipfpbatoi;
 
 public class MisPruebas {
     public static void main(String[] args) {
-        Data fechaInicio = new Data(2, 3, 2022);
-        fechaInicio = fechaInicio.restar(30);
-        System.out.println(fechaInicio.getDia());
-        System.out.println(fechaInicio.getMes());
-        System.out.println(fechaInicio.getAny());        
+        Esdeveniment testEsdeveniment = new Esdeveniment("test", "test");
+        testEsdeveniment.mostrarEsdeveniment();
+        testEsdeveniment.substituirFecha(-4);
+        testEsdeveniment.mostrarEsdeveniment();
     }
 }

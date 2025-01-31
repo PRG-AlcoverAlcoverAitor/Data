@@ -1,10 +1,11 @@
+package prog.cipfpbatoi;
 import java.util.Scanner;
 
 public class GestorIO {
 
     private static Scanner scanner = new Scanner(System.in);
 
-    public static int leerEntero(String mensaje) {
+    public static int llegirEnter(String mensaje) {
         int entero = 0;
         boolean datoValido = false;
 
@@ -22,12 +23,12 @@ public class GestorIO {
         return entero;
     }
 
-    public static String leerTexto(String mensaje) {
+    public static String llegirText(String mensaje) {
         System.out.print(mensaje);
         return scanner.nextLine();
     }
 
-    public static boolean solicitarConfirmacion(String mensaje) {
+    public static boolean solicitarConfirmacio(String mensaje) {
         boolean confirmacion = false;
         boolean datoValido = false;
 

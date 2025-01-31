@@ -11,7 +11,7 @@ import java.util.StringTokenizer;
  * @author batoi
  */
 public class Data {
-    
+
     private int dia;
     private int mes;
     private int any;
@@ -27,8 +27,6 @@ public class Data {
     private static final String OCTUBRE = "octubre";
     private static final String NOVEMBRE = "novembre";
     private static final String DESEMBRE = "desembre";
-    private static final int ANONOBISIESTO = 365;
-    private static final int ANOBISIESTO = 366;
     private static final String DILLUNS = "dilluns";
     private static final String DIMARTS = "dimarts";
     private static final String DIMECRES = "dimecres";
@@ -43,6 +41,8 @@ public class Data {
     private static final int NDIVENDRES = 5;
     private static final int NDISSABTE = 6;
     private static final int NDIUMENGE = 7;
+    private static final int ANONOBISIESTO = 365;
+    private static final int ANOBISIESTO = 366;
 
     /**
      *  Constructor por defecto
@@ -90,7 +90,7 @@ public class Data {
         this.dia = dia;
         this.mes = mes;
         this.any = any;
-        
+
     }
 
     /**
@@ -126,6 +126,7 @@ public class Data {
      */
     public int getAny(){
         return this.any;
+        // hola
     }
 
     /**
@@ -133,7 +134,7 @@ public class Data {
      */
     public void mostrarEnFormatES()  {
         System.out.printf("%02d/%02d/%d \n", this.dia, this.mes, this.any);
-        
+
     }
 
     /**
@@ -141,9 +142,9 @@ public class Data {
      */
     public void mostrarEnFormatGB() {
         System.out.printf("%d-%02d-%02d \n", this.any, this.mes, this.dia);
-        
+
     }
-    
+
     private String getMesText(int mes) {
         switch (mes) {
             case 1:
@@ -177,10 +178,10 @@ public class Data {
      * Muestra por pantalla la fecha en formato texto dd-mmmmm-yyyy
      */
     public void mostrarEnFormatText() {
-        System.out.printf("%02d-%s-%d \n", this.dia, getMesText(this.mes), this.any); 
+        System.out.printf("%02d-%s-%d \n", this.dia, getMesText(this.mes), this.any);
     }
 
-    
+
     /**
      * Retorna un booleano indicando si la fecha del objeto es igual a la fecha pasada como
      * argumento
@@ -213,7 +214,7 @@ public class Data {
             default: return DISSABTE;
         }
     }
-    
+
     private int getDiesTranscorregutsOrigen() {
         int dies = 0;
         // Sumar días de años completos desde el año 1 hasta el año anterior
@@ -246,7 +247,7 @@ public class Data {
 
     /**
      * Obtiene el número de la semana del año de la fecha actual
-     * @return 
+     * @return
      */
     public int getNumeroSetmana() {
         int dies = 0;
@@ -277,9 +278,9 @@ public class Data {
         }
         return semanas;
     }
-    
-    
-    
+
+
+
     /**
      * Crea una nueva fecha con un número de días adicionales a la fecha actual
      *
@@ -295,11 +296,11 @@ public class Data {
 
     while (!finalizado) {
         int diasEnMes = getDiesMes(esteMes, esteAno);
-        
+
         if (esteDia > diasEnMes) {
             esteDia -= diasEnMes;
-            esteMes++; 
-            if (esteMes > 12) { 
+            esteMes++;
+            if (esteMes > 12) {
                     esteMes = 1;
                     esteAno++;
                 }
@@ -311,12 +312,12 @@ public class Data {
     return nuevaFecha;
    }
 
-   
+
 
     /**
      * Crea una nueva fecha con un número de días anteriores a la fecha actual
      * @param numDias
-     * @return 
+     * @return
      */
     public Data restar(long numDias) {
         int esteMes = this.mes;
@@ -327,8 +328,8 @@ public class Data {
 
         while (!finalizado) {
             if (esteDia < 1) {
-                esteMes--; 
-                if (esteMes < 1) { 
+                esteMes--;
+                if (esteMes < 1) {
                     esteMes = 12;
                     esteAno--;
                 }
@@ -340,10 +341,10 @@ public class Data {
         Data nuevaFecha = new Data((int) esteDia, esteMes, esteAno);
         return nuevaFecha;
     }
-    
+
     /**
      * Determina si una fecha está compuesta por datos correctos
-     * @return 
+     * @return
      */
 
     public boolean isCorrecta(){
@@ -356,20 +357,20 @@ public class Data {
         return true;
     }
 
-    
+
     /** Devuelve el valor absoluto de la diferencia de dias entre la fecha actual y la proporcionada
-     * 
+     *
      * @param data
-     * @return 
+     * @return
      */
     public long getDiesDeDiferencia(Data data) {
         return Math.abs(getDiesTranscorregutsOrigen() - data.getDiesTranscorregutsOrigen());
     }
-    
+
     /**
      * Determina si una fecha es posterior a la fecha proporcionada
      * @param data
-     * @return 
+     * @return
      */
     public boolean esPosteriorA(Data data) {
         return getDiesTranscorregutsOrigen() > data.getDiesTranscorregutsOrigen();
@@ -389,7 +390,7 @@ public class Data {
             }
             return true;
         }
-        return false; 
+        return false;
     }
 
     /**
