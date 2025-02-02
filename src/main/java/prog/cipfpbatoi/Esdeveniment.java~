@@ -6,7 +6,7 @@ public class Esdeveniment {
     private String tipo;
     private String notaDescriptiva;
     private String ubicacion;
-    public Data fechaEsdeviment;
+    private Data fechaEsdeviment;
 
     // Constructor principal
     public Esdeveniment(String tipo, String notaDescriptiva, String ubicacion, int diasRestantes) {
