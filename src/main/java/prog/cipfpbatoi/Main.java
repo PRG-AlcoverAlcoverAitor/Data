@@ -6,6 +6,6 @@ public class Main {
 
     Menu menu = new Menu();
 
-    menu.iniciar(); //no oblides tancar l’objecte de Scanner, dins d’aquest mètode
+    menu.iniciar();
   }
 }
